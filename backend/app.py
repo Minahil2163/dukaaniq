@@ -960,15 +960,18 @@ FRONTEND_DIR = BASE_DIR.parent
 
 @app.get("/", include_in_schema=False)
 def frontend_index():
-    index_path = FRONTEND_DIR / "index.html"
-    if index_path.exists():
-        return FileResponse(index_path)
-    return {"message": "Dukaaniq API is running live!"}
-
-# Safely serve static files if a static folder exists
-static_path = FRONTEND_DIR / "static"
-if static_path.exists():
-    app.mount("/static", StaticFiles(directory=static_path), name="static")
+    # Check both potential path structures for Vercel vs Local
+    possible_paths = [
+        FRONTEND_DIR / "index.html",
+        Path(__file__).resolve().parent.parent / "index.html",
+        Path("index.html").resolve(),
+    ]
+    
+    for index_path in possible_paths:
+        if index_path.exists():
+            return FileResponse(index_path)
+            
+    return {"message": "Dukaaniq API is running live, but index.html was not found."}
 
 # ============================================================
 # RUN DIRECTLY
