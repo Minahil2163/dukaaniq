@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DukaanIQ — Retail Intelligence</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+        defer
+    ></script>
+
+    <script
+        src="/static/script.js"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- ======================================================
+         SIDEBAR
+    ======================================================= -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                D
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    DukaanIQ
+                </strong>
+
+                <span>
+                    Retail Intelligence
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <div class="nav-label">
+                MAIN
+            </div>
+
+            <button
+                class="nav-item active"
+                data-page="dashboard"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="products"
+            >
+                <span class="nav-icon">▦</span>
+                <span>Products</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="inventory"
+            >
+                <span class="nav-icon">↗</span>
+                <span>Demand</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="analytics"
+            >
+                <span class="nav-icon">◒</span>
+                <span>Analytics</span>
+            </button>
+
+
+            <div class="nav-label">
+                INTELLIGENCE
+            </div>
+
+
+            <button
+                class="nav-item"
+                data-page="ai"
+            >
+                <span class="nav-icon">✦</span>
+                <span>AI Analyst</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="reports"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="upload-sidebar-btn"
+                id="uploadButton"
+            >
+                <span>＋</span>
+                Import CSV
+            </button>
+
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+
+                    <strong>
+                        DukaanIQ
+                    </strong>
+
+                    <span id="sidebarStatusText">
+                        System ready
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ======================================================
+         MAIN
+    ======================================================= -->
+
+    <main class="main">
+
+
+        <!-- ==================================================
+             TOPBAR
+        =================================================== -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    type="button"
+                >
+                    ☰
+                </button>
+
+                <div>
+
+                    <span class="breadcrumb">
+                        DukaanIQ
+                    </span>
+
+                    <span class="breadcrumb-separator">
+                        /
+                    </span>
+
+                    <strong id="currentPage">
+                        Dashboard
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <span
+                    class="dataset-status"
+                    id="datasetStatus"
+                >
+                    No dataset loaded
+                </span>
+
+                <button
+                    class="topbar-upload"
+                    id="dashboardUpload"
+                    type="button"
+                >
+                    Upload CSV
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- ==================================================
+             DASHBOARD
+        =================================================== -->
+
+        <section
+            class="page active"
+            id="dashboard"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        OVERVIEW
+                    </span>
+
+                    <h1>
+                        Retail at a glance.
+                    </h1>
+
+                    <p>
+                        Track revenue, orders, products and customers from your sales data.
+                    </p>
+
+                    <div class="active-dataset-banner" id="activeDatasetBanner">
+                        <span class="active-dataset-dot"></span>
+                        <span id="activeDatasetText">No dataset loaded — upload a CSV to generate your report.</span>
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="dashboardImportBtn"
+                    type="button"
+                >
+                    <span>＋</span>
+                    Import Sales CSV
+                </button>
+
+            </div>
+
+
+            <!-- KPI CARDS -->
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            REVENUE
+                        </span>
+
+                        <span class="kpi-icon">
+                            $
+                        </span>
+
+                    </div>
+
+                    <strong
+                        class="kpi-value"
+                        id="kpiRevenue"
+                    >
+                        —
+                    </strong>
+
+                    <span class="kpi-sub">
+                        Total recorded sales
+                    </span>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            ORDERS
+                        </span>
+
+                        <span class="kpi-icon">
+                            #
+                        </span>
+
+                    </div>
+
+                    <strong
+                        class="kpi-value"
+                        id="kpiProfit"
+                    >
+                        —
+                    </strong>
+
+                    <span class="kpi-sub">
+                        Unique invoices
+                    </span>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            PRODUCTS
+                        </span>
+
+                        <span class="kpi-icon">
+                            ◇
+                        </span>
+
+                    </div>
+
+                    <strong
+                        class="kpi-value"
+                        id="kpiProducts"
+                    >
+                        —
+                    </strong>
+
+                    <span class="kpi-sub">
+                        Unique products
+                    </span>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            CUSTOMERS
+                        </span>
+
+                        <span class="kpi-icon">
+                            ◎
+                        </span>
+
+                    </div>
+
+                    <strong
+                        class="kpi-value"
+                        id="kpiAlerts"
+                    >
+                        —
+                    </strong>
+
+                    <span class="kpi-sub">
+                        Unique customers
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN DASHBOARD GRID -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- REVENUE CHART -->
+
+                <div class="panel revenue-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                SALES
+                            </span>
+
+                            <h3>
+                                Revenue Trend
+                            </h3>
+
+                        </div>
+
+                        <span class="panel-note">
+                            Daily sales
+                        </span>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="revenueChart"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COUNTRY SALES -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                GEOGRAPHY
+                            </span>
+
+                            <h3>
+                                Sales by Country
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="donut-wrapper">
+
+                        <div class="donut-chart">
+
+                            <canvas
+                                id="categoryChart"
+                            ></canvas>
+
+                            <div class="donut-center">
+
+                                <strong id="donutTotal">
+                                    —
+                                </strong>
+
+                                <span>
+                                    Revenue
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="category-list"
+                        id="categoryList"
+                    >
+
+                        <div class="empty-state">
+                            Country sales will appear here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- SECOND ROW -->
+
+            <div class="dashboard-grid second-row">
+
+
+                <!-- TOP PRODUCTS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                PRODUCTS
+                            </span>
+
+                            <h3>
+                                Top Products
+                            </h3>
+
+                        </div>
+
+                        <button
+                            class="text-button"
+                            type="button"
+                            data-page="products"
+                        >
+                            View all →
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="product-list"
+                        id="topProductsList"
+                    >
+
+                        <div class="empty-state">
+                            Import data to see products.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DEMAND -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                DEMAND
+                            </span>
+
+                            <h3>
+                                Product Demand
+                            </h3>
+
+                        </div>
+
+                        <button
+                            class="text-button"
+                            type="button"
+                            data-page="inventory"
+                        >
+                            Explore →
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="alerts-list"
+                        id="alertsList"
+                    >
+
+                        <div class="empty-state">
+                            Sales demand will appear here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- AI INSIGHT -->
+
+            <div class="ai-insight-card">
+
+                <div class="ai-insight-icon">
+                    ✦
+                </div>
+
+                <div class="ai-insight-content">
+
+                    <span class="eyebrow">
+                        DUKAANIQ AI
+                    </span>
+
+                    <h3 id="aiInsightTitle">
+                        Upload your sales data to get started
+                    </h3>
+
+                    <p id="aiInsightText">
+                        Upload your CSV to analyze revenue, orders, products, customers and sales demand.
+                    </p>
+
+                </div>
+
+                <button
+                    class="secondary-button"
+                    type="button"
+                    data-page="ai"
+                >
+                    Ask AI →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             PRODUCTS
+        =================================================== -->
+
+        <section
+            class="page"
+            id="products"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        CATALOG
+                    </span>
+
+                    <h1>
+                        Products
+                    </h1>
+
+                    <p>
+                        Explore product sales, units sold, average price and revenue.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Product Performance
+                        </h3>
+
+                        <span
+                            id="productsCount"
+                            class="panel-note"
+                        >
+                            0 products
+                        </span>
+
+                    </div>
+
+
+                    <div class="search-box">
+
+                        <span>
+                            ⌕
+                        </span>
+
+                        <input
+                            type="search"
+                            id="productSearch"
+                            placeholder="Search products or StockCode..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    PRODUCT
+                                </th>
+
+                                <th>
+                                    STOCK CODE
+                                </th>
+
+                                <th>
+                                    UNITS SOLD
+                                </th>
+
+                                <th>
+                                    AVG. PRICE
+                                </th>
+
+                                <th>
+                                    REVENUE
+                                </th>
+
+                                <th>
+                                    STOCK
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="productTable">
+
+                            <tr>
+
+                                <td
+                                    colspan="7"
+                                    class="table-empty"
+                                >
+                                    Import a CSV to load products.
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             DEMAND
+        =================================================== -->
+
+        <section
+            class="page"
+            id="inventory"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        SALES INTELLIGENCE
+                    </span>
+
+                    <h1>
+                        Sales Demand
+                    </h1>
+
+                    <p>
+                        Analyze product demand from recorded sales quantity.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="mini-stats"
+                id="inventoryKpis"
+            >
+
+                <div class="mini-stat">
+
+                    <span>
+                        Products
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="mini-stat">
+
+                    <span>
+                        High Demand
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="mini-stat">
+
+                    <span>
+                        Units Sold
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="mini-stat">
+
+                    <span>
+                        Stock Data
+                    </span>
+
+                    <strong>
+                        N/A
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                DEMAND
+                            </span>
+
+                            <h3>
+                                Product Sales Velocity
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="stock-list"
+                        id="stockList"
+                    >
+
+                        <div class="empty-state">
+                            Sales demand will appear here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                DATA LIMITATION
+                            </span>
+
+                            <h3>
+                                Inventory Status
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="restock-queue"
+                        id="restockQueue"
+                    >
+
+                        <div class="empty-state">
+
+                            Actual stock and restocking cannot be
+                            determined because the dataset does not
+                            contain a stock-on-hand column.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             ANALYTICS
+        =================================================== -->
+
+        <section
+            class="page"
+            id="analytics"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        ANALYTICS
+                    </span>
+
+                    <h1>
+                        Sales Analytics
+                    </h1>
+
+                    <p>
+                        Understand daily, monthly, product and country sales trends.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel large-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            TIME SERIES
+                        </span>
+
+                        <h3>
+                            Daily Revenue
+                        </h3>
+
+                    </div>
+
+                    <span class="panel-note">
+                        Revenue = Quantity × UnitPrice
+                    </span>
+
+                </div>
+
+
+                <div class="chart-container large">
+
+                    <canvas
+                        id="trendChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="health-stats"
+                id="healthStats"
+            >
+
+                <div class="health-stat">
+
+                    <span>
+                        Sales Days
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="health-stat">
+
+                    <span>
+                        Months
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="health-stat">
+
+                    <span>
+                        Countries
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="health-stat">
+
+                    <span>
+                        Top Products
+                    </span>
+
+                    <strong>
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            DATA MODEL
+                        </span>
+
+                        <h3>
+                            Available Sales Data
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="data-columns">
+
+                    <span>InvoiceNo</span>
+                    <span>StockCode</span>
+                    <span>Description</span>
+                    <span>Quantity</span>
+                    <span>InvoiceDate</span>
+                    <span>UnitPrice</span>
+                    <span>CustomerID</span>
+                    <span>Country</span>
+                    <span>Revenue</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             AI ANALYST
+        =================================================== -->
+
+        <section
+            class="page"
+            id="ai"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        INTELLIGENCE
+                    </span>
+
+                    <h1>
+                        AI Analyst
+                    </h1>
+
+                    <p>
+                        Ask questions about your actual retail sales data.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-layout">
+
+
+                <div class="panel chat-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                DUKAANIQ AI
+                            </span>
+
+                            <h3>
+                                Business Analyst
+                            </h3>
+
+                        </div>
+
+                        <span class="ai-status">
+                            <span></span>
+                            Ready
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="chat-messages"
+                        id="chatMessages"
+                    >
+
+                        <div class="message assistant">
+
+                            <div class="message-avatar">
+                                ✦
+                            </div>
+
+                            <div class="message-body">
+
+                                <div class="message-name">
+                                    DukaanIQ
+                                </div>
+
+                                <p>
+                                    Upload your sales CSV and ask me about revenue, orders, products, customers, countries or sales trends.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <form
+                        class="chat-form"
+                        id="chatForm"
+                    >
+
+                        <input
+                            type="text"
+                            id="chatInput"
+                            placeholder="Ask about your sales data..."
+                            autocomplete="off"
+                        >
+
+                        <button
+                            type="submit"
+                        >
+                            →
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                SUGGESTIONS
+                            </span>
+
+                            <h3>
+                                Try asking
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="suggestions">
+
+                        <button
+                            class="suggestion"
+                            type="button"
+                        >
+                            What is my total revenue?
+                        </button>
+
+                        <button
+                            class="suggestion"
+                            type="button"
+                        >
+                            Which products sold the most?
+                        </button>
+
+                        <button
+                            class="suggestion"
+                            type="button"
+                        >
+                            Which country has the highest sales?
+                        </button>
+
+                        <button
+                            class="suggestion"
+                            type="button"
+                        >
+                            Show monthly sales.
+                        </button>
+
+                        <button
+                            class="suggestion"
+                            type="button"
+                        >
+                            How many customers do I have?
+                        </button>
+
+                        <button
+                            class="suggestion"
+                            type="button"
+                        >
+                            Which products have high demand?
+                        </button>
+
+                    </div>
+
+
+                    <div class="ai-note">
+
+                        <span>
+                            ✦
+                        </span>
+
+                        <p>
+                            AI answers are generated only from the uploaded sales dataset and its derived Revenue value.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================================================
+             REPORTS
+        =================================================== -->
+
+        <section
+            class="page"
+            id="reports"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        REPORTING
+                    </span>
+
+                    <h1>
+                        Reports
+                    </h1>
+
+                    <p>
+                        Review sales, product, customer and country reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="reports-grid">
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        ↗
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            SALES
+                        </span>
+
+                        <h3>
+                            Sales Report
+                        </h3>
+
+                        <p>
+                            Daily revenue, orders and units sold.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="secondary-button"
+                        id="salesReportBtn"
+                        type="button"
+                    >
+                        View Report →
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        ◇
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            PRODUCTS
+                        </span>
+
+                        <h3>
+                            Product Report
+                        </h3>
+
+                        <p>
+                            Product units, average price and revenue.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="secondary-button"
+                        type="button"
+                        data-page="products"
+                    >
+                        View Report →
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        ◎
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            CUSTOMERS
+                        </span>
+
+                        <h3>
+                            Customer Report
+                        </h3>
+
+                        <p>
+                            Customer purchase activity and revenue.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="secondary-button"
+                        type="button"
+                        data-page="analytics"
+                    >
+                        View Report →
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        ◉
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            COUNTRIES
+                        </span>
+
+                        <h3>
+                            Country Report
+                        </h3>
+
+                        <p>
+                            Revenue and order activity by country.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="secondary-button"
+                        type="button"
+                        data-page="analytics"
+                    >
+                        View Report →
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            AI
+                        </span>
+
+                        <h3>
+                            AI Business Summary
+                        </h3>
+
+                        <p>
+                            Ask DukaanIQ AI for a natural-language sales analysis.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="secondary-button"
+                        type="button"
+                        data-page="ai"
+                    >
+                        Ask AI →
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ==========================================================
+     UPLOAD MODAL
+=========================================================== -->
+
+<div
+    class="modal-overlay"
+    id="uploadModal"
+    aria-hidden="true"
+>
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            id="closeModal"
+            type="button"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+
+        <div class="modal-icon">
+            ↑
+        </div>
+
+
+        <span class="eyebrow">
+            DATA IMPORT
+        </span>
+
+
+        <h2>
+            Import Sales Data
+        </h2>
+
+
+        <p>
+            Upload your DukaanIQ retail CSV using the required sales dataset columns.
+        </p>
+
+
+        <div class="required-columns">
+
+            <strong>
+                Required columns
+            </strong>
+
+            <div class="column-tags">
+
+                <span>InvoiceNo</span>
+                <span>StockCode</span>
+                <span>Description</span>
+                <span>Quantity</span>
+                <span>InvoiceDate</span>
+                <span>UnitPrice</span>
+                <span>CustomerID</span>
+                <span>Country</span>
+
+            </div>
+
+        </div>
+
+
+        <label
+            class="file-drop"
+            for="csvInput"
+        >
+
+            <input
+                type="file"
+                id="csvInput"
+                accept=".csv,text/csv"
+                hidden
+            >
+
+            <span class="upload-icon">
+                ↑
+            </span>
+
+            <strong>
+                Choose CSV file
+            </strong>
+
+            <span id="fileText">
+                CSV files only
+            </span>
+
+        </label>
+
+
+        <div class="modal-footer">
+
+            <span>
+                Revenue is calculated automatically as Quantity × UnitPrice.
+            </span>
+
+            <button
+                class="primary-button"
+                id="processCSV"
+                type="button"
+                disabled
+            >
+                Analyze CSV
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================================
+     TOAST
+=========================================================== -->
+
+<div
+    class="toast"
+    id="toast"
+>
+
+    <span class="toast-icon">
+        ✓
+    </span>
+
+    <span id="toastMessage">
+        Done
+    </span>
+
+</div>
+
+
+</body>
+
+</html>
