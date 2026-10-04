@@ -956,14 +956,24 @@ def countries_report():
 # ============================================================
 # FRONTEND (single-command local development)
 # ============================================================
-FRONTEND_DIR = BASE_DIR.parent
+from fastapi.staticfiles import StaticFiles
+
+# Path setup relative to current file location
+BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
+
+# Serve static assets (CSS, JS) if present at root
+if (PROJECT_ROOT / "style.css").exists():
+    app.mount("/style.css", StaticFiles(file=PROJECT_ROOT / "style.css"), name="style")
+if (PROJECT_ROOT / "script.js").exists():
+    app.mount("/script.js", StaticFiles(file=PROJECT_ROOT / "script.js"), name="script")
 
 @app.get("/", include_in_schema=False)
 def frontend_index():
-    # Check both potential path structures for Vercel vs Local
+    # Check current directory and root parent directory
     possible_paths = [
-        FRONTEND_DIR / "index.html",
-        Path(__file__).resolve().parent.parent / "index.html",
+        PROJECT_ROOT / "index.html",
+        BASE_DIR / "index.html",
         Path("index.html").resolve(),
     ]
     
